@@ -10,7 +10,7 @@ const obj = {
 };
 
 // Make sure the API is working just with space parameter
-yj.stringifyAsync(obj, '\n', (err, str) => {
+yj.stringifyAsync(obj, null, '\n', (err, str) => {
   if (!err)
     tap.equal('{\n\n"name": "Jacqueline Poole",\n\n"gender":' +
               ' "female",\n\n"age": 40\n}', str);

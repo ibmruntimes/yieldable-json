@@ -13,8 +13,8 @@ while (i < 2050) {
 
 yj.stringifyAsync(obj, 0, 2, (err, str) => {
   if (!err) {
-    tap.ok(flag >= 2, 'Async function was expected to yield 2 times,' +
-           ' but it was not!');
+    tap.ok(flag >= 1, 'Async function was expected to yield at least' +
+           ` once, but got ${flag}!`);
   } else
     tap.fail(err);
 });
