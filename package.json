@@ -1,0 +1,37 @@
+{
+  "name": "yieldable-json",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "An asynchronous yieldable version of JSON.stringify and JSON.parse",
+  "author": "Gireesh Punathil <gpunathi@in.ibm.com>",
+  "contributors": [
+    "Bidisha Pyne <bidisha.pyne2015a@vit.ac.in>",
+    "Lakshmi Swetha Gopireddy <lakshmiswethagopireddy@gmail.com>",
+    "Michael Dawson <michael_dawson@ca.ibm.com>",
+    "Sam Roberts <vieuxtech@gmail.com>",
+    "Sreepurna Jasti <sreepurna.jasti@gmail.com>"
+  ],
+  "license": "Apache-2.0",
+  "repository": "ibmruntimes/yieldable-json",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "tap test/*.js"
+  },
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "files": [
+    "LICENSE",
+    "CONTRIBUTING.md",
+    "README.md",
+    "index.js",
+    "yieldable-stringify.js",
+    "yieldable-parse.js",
+    "test/"
+  ],
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-strongloop": "^2.1.0",
+    "tap": "^10.3.0"
+  }
+}
