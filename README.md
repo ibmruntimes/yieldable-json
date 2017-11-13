@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://github.com/ibmruntimes/yieldable-json">
+    <img height="257" width="114" src="https://user-images.githubusercontent.com/6447530/32721130-891d044a-c88b-11e7-9a6d-db062b55169d.png">
+  </a>
+  <p align="center">Asynchronous JSON.parse and JSON.stringify APIs</p>
+</p>
 # **yieldable-json**
 This library provides asynchronous version of standard `JSON.parse` and `JSON.stringify` APIs.
 
