@@ -11,6 +11,18 @@
     "Sam Roberts <vieuxtech@gmail.com>",
     "Sreepurna Jasti <sreepurna.jasti@gmail.com>"
   ],
+  "keywords": [
+    "stringify",
+    "parse",
+    "asynchronous",
+    "async",
+    "yield",
+    "yieldable",
+    "string",
+    "object",
+    "json",
+    "non-blocking"
+  ],
   "license": "Apache-2.0",
   "repository": "ibmruntimes/yieldable-json",
   "scripts": {
