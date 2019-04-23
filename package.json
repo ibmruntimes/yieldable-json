@@ -42,6 +42,7 @@
     "test/"
   ],
   "devDependencies": {
+    "blocked-at": "^1.1.3",
     "eslint": "^3.19.0",
     "eslint-config-strongloop": "^2.1.0",
     "seedrandom": "^2.4.3",
