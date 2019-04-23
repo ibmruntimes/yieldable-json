@@ -25,7 +25,7 @@ JSON.parse(bigJSON);
 const nonYieldParseTime1 = Date.now();
 const nonYieldParseElapsedTime = nonYieldParseTime1 - nonYieldParseTime0;
 
-// 3. Make sure a single tick doesn't block for too long. Uses async-hooks
+// 3. Set up a measure of how long a single tick blocks for. Uses async-hooks
 const blocked = require('blocked-at');
 let longestTickTime = 0;
 let longestTickStack;
