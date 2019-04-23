@@ -18,6 +18,11 @@ const bigObject = new Array(objectSize).fill(undefined).reduce((accumulator) => 
 const bigJSON = JSON.stringify(bigObject);
 console.log('Object size', bigJSON.length);
 
+const nonYieldParseTime0 = Date.now();
+JSON.parse(bigJSON);
+const nonYieldParseTime1 = Date.now();
+const nonYieldParseElapsedTime = nonYieldParseTime1 - nonYieldParseTime0;
+
 let longestStarvation = 0;
 let yieldCount = 0;
 let time0 = Date.now();
@@ -33,15 +38,17 @@ const interval = setInterval(() => {
 
 
 // Make sure the API works well without the optional parameters.
-const startTime = Date.now();
+const yieldParseTime0 = Date.now();
 yj.parseAsync(bigJSON, (error, obj) => {
-  const endTime = Date.now();
-  console.log('Total time', endTime - startTime);
+  const yieldParseTime1 = Date.now();
+  const yieldParseElapsedTime = yieldParseTime1 - yieldParseTime0;
+  console.log('Total time', yieldParseElapsedTime);
   if (error) {
     tap.fail(error);
   } else {
     tap.equal(yieldCount > 100, true, `Not enough yielding ${yieldCount}`);
     tap.equal(longestStarvation < 10, true, `Main thread starved too long ${longestStarvation}`);
+    tap.equal(yieldParseElapsedTime / 10 < nonYieldParseElapsedTime, `Yieldable parse took 10x longer than regular parse ${yieldParseElapsedTime} vs ${nonYieldParseElapsedTime}`);
   }
   clearInterval(interval);
 });
