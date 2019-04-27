@@ -133,7 +133,7 @@ let generateJson = (depth, root) => {
 };
 
 let print = (seed) => {
-  console.log('Raise issue with https://github.ibm.com/gpunathi/yieldable-' +
+  console.log('Raise issue with https://github.com/ibmruntimes/yieldable-' +
               'json issues, along with these files.');
   console.log('Alternatively, you can diagnose this issue with the help of' +
               'these files.');
