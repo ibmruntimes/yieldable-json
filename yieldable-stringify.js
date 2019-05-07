@@ -42,6 +42,10 @@ let normalize = (string, flagN) => {
   '/[\\\'\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4' +
   '\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g';
   let unicode = new RegExp(uc);
+  // Taking '\\' out of the loop to avoid change in
+  // order of execution of object entries resulting
+  // in unwanted side effect
+  string = string.replace(/\\/gi, '\\\\');
   let escape = {
     '\b': '\\b',
     '\t': '\\t',
@@ -49,17 +53,17 @@ let normalize = (string, flagN) => {
     '\f': '\\f',
     '\r': '\\r',
     '"': '\\"',
-    '\\': '\\\\',
   };
+  // Escape is implemented globally
+  for(var pattern in escape) {
+    var regex = new RegExp(pattern,'gi')
+    string = string.replace(regex, escape[pattern])
+  }
   unicode.lastIndex = 0;
   if (unicode.test(string)) {
     // Unicode logic here
     transform = string.replace(unicode, (a) => {
-      let c = escape[a];
-      if (typeof c === 'string')
-        return c;
-      else
-        return '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+      return '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
     });
     if (flagN === 1) {
       transform += temp;
