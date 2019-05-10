@@ -5,19 +5,19 @@ const tap = require('tap');
 
 // 1. Set up really big JSON object
 const RANDOM_STRING = 'abcdefghijklmnopqrstuvwxCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-=_+[]{}\\|;:\'",<.>/?`~';
-const stringLength = Math.pow(2, 10);
+const stringLength = Math.pow(2, 4);
 const bigString = new Array(stringLength).fill(RANDOM_STRING).join('');
-const arrayLength = Math.pow(2, 7);
+const arrayLength = Math.pow(2, 8);
 const bigArray = new Array(arrayLength).fill(bigString);
 let index = 0;
-const objectSize = Math.pow(2, 2);
+const objectSize = Math.pow(2, 10);
 const bigObject = new Array(objectSize).fill(undefined).reduce((accumulator) => {
   accumulator[index] = bigArray;
   index++;
   return accumulator;
 }, {});
 const bigJSON = JSON.stringify(bigObject);
-console.log('Object size', bigJSON.length);
+console.log('Object size', bigJSON.length * 16, 'bytes');
 
 // 2. Measure how long it takes regular JSON.parse
 const nonYieldParseTime0 = Date.now();
