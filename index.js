@@ -40,18 +40,16 @@ let validateSpace = (space) => {
 };
 
 /**
- * Checks whether the provided intensity
- * @param { number } intensity
+ * Checks whether the provided maxDuration
+ * @param { number } maxDuration
  * @return { number }
  */
-let validateIntensity = (intensity) => {
-  intensity = Math.round(intensity);
-  if (intensity > 0 && intensity <= 32)
-    return intensity;
-  else if (intensity <= 0)
-    return 1;
+const validateDuration = (maxDuration) => {
+  maxDuration = Math.round(maxDuration);
+  if (maxDuration > 0 && maxDuration <= 60*60*1000)
+    return maxDuration;
   else
-    return 32;
+    return 15;
 };
 
 module.exports = {
@@ -60,30 +58,37 @@ module.exports = {
   * Error checking  and call of appropriate functions for JSON parse
   * @param { primitive data types } data
   * @param { function or array } reviver
-  * @param { number } intensity
+  * @param { number } maxDuration
   * @param { function } callback
   * @return { function } parseWrapper
   */
-  parseAsync(data, reviver, intensity, callback) {
+  parseAsync(data, reviver, maxDuration, callback) {
     const argv = arguments;
-    if (argv.length < 2)
-      throw new Error('Missing Callback');
-
-    if (typeof argv[argv.length - 1] === 'function') {
+    // Make sure last argument is callback
+    if (typeof argv[argv.length - 1] === 'function' && argv.length > 1) {
       callback = argv[argv.length - 1];
-      reviver = null;
-      intensity = 1;
-    } else
+    } else {
       throw new TypeError('Callback is not a function');
-
-    if (argv.length > 2) {
-      let i = 1;
-      if (typeof argv[i] === 'function')
-        reviver = argv[i++];
-      if (typeof argv[i] === 'number')
-        intensity = validateIntensity(argv[i]);
     }
-    return pa.parseWrapper(data, reviver, intensity, callback);
+
+    if (argv.length > 2) { // more than just just data and callback
+      let i = argv.length - 2;
+      if (typeof argv[i] === 'number') {
+        maxDuration = validateDuration(argv[i]);
+        i--;
+      } else {
+        maxDuration = undefined;
+      }
+      if (i > 0 && (typeof argv[i] === 'function' || Array.isArray(argv[i]))) {
+        reviver = argv[i];
+      } else {
+        reviver = undefined;
+      }
+    } else {
+      reviver = undefined;
+      maxDuration = 15;
+    }
+    return pa.parseWrapper(data, reviver, maxDuration, callback);
   },
 
   /**
@@ -91,28 +96,44 @@ module.exports = {
   * @param { primitive data types } data
   * @param { function or array } replacer
   * @param { number or string } space
-  * @param { number } intensity
+  * @param { number } maxDuration
   * @param { function } callback
   * @return { function } stringifyWrapper
   */
-  stringifyAsync(data, replacer, space, intensity, callback) {
+  stringifyAsync(data, replacer, space, maxDuration, callback) {
     const argv = arguments;
-    if (typeof argv[argv.length - 1] === 'function') {
+
+    // Make sure last argument is callback
+    if (typeof argv[argv.length - 1] === 'function' && argv.length > 1) {
       callback = argv[argv.length - 1];
-      replacer = null;
-      intensity = 1;
-    } else
+    } else {
       throw new TypeError('Callback is not a function');
-    if (argv.length > 2) {
-      let i = 1;
-      if (typeof argv[i] === 'function' || typeof argv[i] === 'object')
-        replacer = argv[i++];
-      if ((typeof argv[i] === 'number' || typeof argv[i] === 'string') &&
-           typeof argv[i++] === 'number')
-        space = validateSpace(argv[i++]);
-      if (typeof argv[i] === 'number')
-        intensity = validateIntensity(argv[i]);
     }
-    return ps.stringifyWrapper(data, replacer, space, intensity, callback);
+
+    if (argv.length > 2) { // more than just just data and callback
+      let i = argv.length - 2;
+      if (typeof argv[i] === 'number') {
+        maxDuration = validateDuration(argv[i]);
+        i--;
+      } else {
+        maxDuration = undefined;
+      }
+      if (i > 0 && (typeof argv[i] === 'number' || typeof argv[i] === 'string')) {
+        space = validateSpace(argv[i]);
+        i--;
+      } else {
+        space = undefined;
+      }
+      if (i > 0 && (typeof argv[i] === 'function' || Array.isArray(argv[i]))) {
+        replacer = argv[i];
+      } else {
+        replacer = undefined;
+      }
+    } else {
+      replacer = undefined;
+      maxDuration = 15;
+    }
+
+    return ps.stringifyWrapper(data, replacer, space, maxDuration, callback);
   },
 };

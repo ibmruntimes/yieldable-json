@@ -87,16 +87,16 @@ let normalize = (string, flagN) => {
 };
 
 /**
- * Obtain stringified value by yielding at required intensity
+ * Obtain stringified value by yielding at required maxDuration
  * @param { string} field
  * @param { primitive data type } container
  * @param { function or array } replacer
  * @param { number or string } space
- * @param { number } intensity
+ * @param { number } maxDuration
  * @return { function } yieldCPU
  */
 
-function * stringifyYield(field, container, replacer, space, intensity) {
+function * stringifyYield(field, container, replacer, space, t0, maxDuration) {
   let itr = 0;
   let key = '';
   let val = '';
@@ -106,8 +106,10 @@ function * stringifyYield(field, container, replacer, space, intensity) {
   let value = container[field];
 
   // Yield the stringification at definite intervals
-  if (++counter > 512 * intensity) {
-    counter = 0;
+  const t1 = Date.now();
+  const elapsedTime = t1 - t0;
+  if (elapsedTime > maxDuration) {
+    t0 = t1;
     yield val;
   }
 
@@ -181,7 +183,7 @@ function * stringifyYield(field, container, replacer, space, intensity) {
         length = value.length;
         for (itr = 0; itr < length; itr += 1) {
           tempVal =
-          yield *stringifyYield(itr, value, replacer, space, intensity) ||
+          yield *stringifyYield(itr, value, replacer, space, t0, maxDuration) ||
           'null';
           if (tempVal !== undefined)
             result.push(tempVal);
@@ -195,7 +197,7 @@ function * stringifyYield(field, container, replacer, space, intensity) {
         for (itr = 0; itr < length; itr += 1) {
           if (typeof replacer[itr] === 'string') {
             key = replacer[itr];
-            val = yield *stringifyYield(key, value, replacer, space, intensity);
+            val = yield *stringifyYield(key, value, replacer, space, t0, maxDuration);
             if (val !== undefined)
               result.push(normalize(key, 2) + (space
               ? ': '
@@ -216,7 +218,7 @@ function * stringifyYield(field, container, replacer, space, intensity) {
             objStack.push(value[key]);
           }
           if (Object.hasOwnProperty.call(value, key)) {
-            val = yield *stringifyYield(key, value, replacer, space, intensity);
+            val = yield *stringifyYield(key, value, replacer, space, t0, maxDuration);
             if (val !== undefined)
               result.push(normalize(key, 2) + (space
               ? ': '
@@ -238,12 +240,12 @@ function * stringifyYield(field, container, replacer, space, intensity) {
  * @param { primitive data types } value
  * @param { function or array } replacer
  * @param { number or string } space
- * @param { number } intensity
+ * @param { number } maxDuration
  * @param { function } callback
  * @return { function } yieldCPU
  */
 
-let stringifyWrapper = (value, replacer, space, intensity, callback) => {
+let stringifyWrapper = (value, replacer, space, maxDuration, callback) => {
   let indent = '';
   if (typeof space === 'number') {
     indent = ' '.repeat(space);
@@ -255,7 +257,7 @@ let stringifyWrapper = (value, replacer, space, intensity, callback) => {
 
   // To hold 'stringifyYield' genarator function
   function * yieldBridge() {
-    yielding = yield *stringifyYield('', {'': value}, replacer, indent, 1);
+    yielding = yield *stringifyYield('', {'': value}, replacer, indent, Date.now(), maxDuration);
   }
 
   let rs = yieldBridge();

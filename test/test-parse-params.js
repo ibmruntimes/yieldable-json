@@ -15,7 +15,7 @@ var reviver = (key, value) => {
 
 // Make sure all the parameters can co-exist and the API
 // can handle them gracefully.
-yj.parseAsync(str, reviver, 2, (err, obj) => {
+yj.parseAsync(str, reviver, 100, (err, obj) => {
   if (!err) {
     tap.ok(flag, 'Unexpected Async-Behavior:' +
            ' callback was called synchronously');

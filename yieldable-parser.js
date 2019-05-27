@@ -19,12 +19,12 @@
  * It can throw a SyntaxError exception, if the string is malformed.
  * @param { string } text
  * @param { function or array } reviver
- * @param { number } intensity
+ * @param { number } maxDuration
  * @param { function } cb
  * @return { function } yieldCPU
  */
-let parseWrapper = (text, reviver, intensity, cb) => {
-  let counter = 0;
+let parseWrapper = (text, reviver, maxDuration, cb) => {
+  let t0 = Date.now();
   let keyN = 0;
   let parseStr = text;
   let at = 0;
@@ -133,7 +133,7 @@ let parseWrapper = (text, reviver, intensity, cb) => {
   /**
   * This function parses the current string and returns the JavaScript
   * Object, through recursive method, and yielding back occasionally
-  * based on the intensity parameter.
+  * based on the maxDuration parameter.
   * @return { object } returnObj
   */
   function * parseYield() {
@@ -164,8 +164,10 @@ let parseWrapper = (text, reviver, intensity, cb) => {
       return {};
     } else {
       // Yield the parsing work at specified intervals.
-      if (++counter > 512 * intensity) {
-        counter = 0;
+      const t1 = Date.now();
+      const elapsedTime = t1 - t0;
+      if (elapsedTime > maxDuration) {
+        t0 = t1;
         yield;
       }
       // Common case: non-premitive types.
@@ -309,7 +311,7 @@ let parseWrapper = (text, reviver, intensity, cb) => {
   let gen = rs.next();
 
   // Main yield control logic.
-  let yieldCPU = () => {
+  const yieldCPU = () => {
     setImmediate(() => {
       gen = rs.next();
 
@@ -330,6 +332,8 @@ let parseWrapper = (text, reviver, intensity, cb) => {
             if (typeof reviver === 'function') {
               let result = revive({'': yielding}, '');
               return cb(null, result);
+            } else {
+              return cb(null, yielding);
             }
           } else
             return cb(null, yielding);
