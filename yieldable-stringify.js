@@ -16,12 +16,7 @@
 
 let counter = 0;
 let objStack = [];
-let flag = 0;
-let flag1 = 0;
 let temp = '';
-let returnStr = '';
-let subStr = '';
-let len = 0;
 const limit = 100000;
 
 function StringifyError(m) {
@@ -108,6 +103,12 @@ function * stringifyYield(field, container, replacer, space, intensity) {
   let tempVal = '';
   let result = '';
   let value = container[field];
+  // Made scope local handling async issues
+  let flag = 0;
+  let flag1 = 0;
+  let returnStr = '';
+  let subStr = '';
+  let len = 0;
 
   // Yield the stringification at definite intervals
   if (++counter > 512 * intensity) {
@@ -269,6 +270,10 @@ let stringifyWrapper = (value, replacer, space, intensity, callback) => {
     setImmediate(() => {
       g = rs.next();
       if (g && g.done === true) {
+        // Reinitializing the values at the end of API call
+        counter = 0;
+        temp = ''
+        objStack = [];
         if (typeof yielding === 'object')
           return callback(yielding, null);
         else
