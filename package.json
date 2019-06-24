@@ -1,6 +1,6 @@
 {
   "name": "yieldable-json",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "description": "An asynchronous yieldable version of JSON.stringify and JSON.parse",
   "author": "Gireesh Punathil <gpunathi@in.ibm.com>",
