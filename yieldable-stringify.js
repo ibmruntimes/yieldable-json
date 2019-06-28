@@ -104,7 +104,6 @@ function * stringifyYield(field, container, replacer, space, intensity) {
   let result = '';
   let value = container[field];
   // Made scope local handling async issues
-  let flag = 0;
   let flag1 = 0;
   let returnStr = '';
   let subStr = '';
@@ -209,13 +208,11 @@ function * stringifyYield(field, container, replacer, space, intensity) {
         }
       } else {
       // Object case
-        flag = 1;
         objStack.push(value);
         for (key in value) {
           if (typeof value[key] === 'object' && value[key] !== null &&
           value[key] !== undefined) {
             if (objStack.indexOf(value[key]) !== -1) {
-              flag = 0;
               return new StringifyError('Circular Structure Detected');
             } else
             objStack.push(value[key]);
@@ -229,9 +226,6 @@ function * stringifyYield(field, container, replacer, space, intensity) {
           }
         }
       }
-      if (flag === 0)
-        return new StringifyError('Circular Structure Detected');
-      else
       return getResult(true);
     default:
       return new StringifyError('Unexpected Character');
