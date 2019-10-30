@@ -246,7 +246,7 @@ let parseWrapper = (text, reviver, intensity, cb) => {
               (ch >= String.fromCharCode(65) &&
               ch <= String.fromCharCode(70)))
               addup();
-          } while (isFinite(ch) && ch !== '');
+          } while (ch === '-' || ch === '+' || (isFinite(ch) && ch !== ''));
           num = Number(numHolder);
           parseStr = parseStr.slice(at - 1);
           at = 0;
