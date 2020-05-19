@@ -73,7 +73,7 @@ Because of the usage of ES6 semantics, this module is supported only on `node v4
 
 
 ### **APIs**
-***stringifyAsnc***:
+***stringifyAsync***:
 
 stringifyAsync(value[, replacer][, space][, intensity], callback)
 
