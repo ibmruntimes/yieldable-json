@@ -102,6 +102,9 @@ yj.stringifyAsync({key:"value"}, (err, data) => {
     console.log(data)
 })
 ```
+
+Warning: While stringifyAsync is in progress (i.e. before the callback is executed), it is the user's responsibility to ensure that the Javascript object value (or any of its child objects) is not modified in any way. Object modification between the async function invocation and issuing of the completion callback may lead to undefined behavior (and can possibly result in an inadvertent crash or object corruption).
+
 ***parseAsync***:
 
 parseAsync(text[, reviver][, intensity], callback)
