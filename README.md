@@ -140,6 +140,8 @@ to search for existing bugs before you create another one. Contributions are alw
 **Bidisha Pyne** &lt;bidisha.pyne2015a@vit.ac.in&gt; (she/her)
  * [gireeshpunathil](https://github.com/gireeshpunathil) -
 **Gireesh Punathil** &lt;gpunathi@in.ibm.com&gt; (he/him)
+ * [HarshithaKP](https://github.com/HarshithaKP) -
+**Harshitha K P** &lt;harshi46@in.ibm.com&gt; (she/her)
  * [LakshmiSwethaG](https://github.com/LakshmiSwethaG) -
 **Lakshmi Swetha Gopireddy** &lt;lakshmiswethagopireddy@gmail.com&gt; (she/her)
  * [mhdawson](https://github.com/mhdawson) -
