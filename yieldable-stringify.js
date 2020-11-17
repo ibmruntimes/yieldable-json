@@ -224,7 +224,9 @@ function * stringifyYield(field, container, replacer, space, intensity) {
               ? ': '
               : ':') + val);
           }
+          objStack = objStack.filter((v, i, a) => { return v !== value[key] });
         }
+        objStack = objStack.filter((v, i, a) => { return v !== value });
       }
       return getResult(true);
     default:
