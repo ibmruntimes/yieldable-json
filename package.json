@@ -39,7 +39,8 @@
     "index.js",
     "yieldable-stringify.js",
     "yieldable-parser.js",
-    "test/"
+    "test/",
+    "utils/"
   ],
   "devDependencies": {
     "eslint": "^6.6.0",

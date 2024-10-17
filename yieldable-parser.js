@@ -13,6 +13,7 @@
  *   Multiple authors (IBM Corp.) - initial implementation and documentation
  ***************************************************************************/
 'use strict';
+const { indexOfGenerator } = require('./utils/index-of-generator');
 
 /**
  * This method parses a JSON text to produce an object or array.
@@ -64,14 +65,14 @@ let parseWrapper = (text, reviver, intensity, cb) => {
   };
 
   // Process strings specially.
-  let normalizeUnicodedString = () => {
+  let normalizeUnicodedString = function*() {
     let inQuotes = ' ';
     let tempIndex = at;
     let index = 0;
     let slash = 0;
     let c = '"';
     while (c) {
-      index = parseStr.indexOf('"', tempIndex + 1);
+      index = yield * indexOfGenerator(parseStr, '"', tempIndex + 1);
       tempIndex = index;
       ch = parseStr.charAt(tempIndex - 1);
       while (ch === '\\') {
@@ -88,7 +89,7 @@ let parseWrapper = (text, reviver, intensity, cb) => {
     }
 
     // When parsing string values, look for " and \ characters.
-    index = inQuotes.indexOf('\\');
+    index = yield * indexOfGenerator(inQuotes, '\\');
     while (index >= 0) {
       let escapee = {
         '"': '"',
@@ -124,7 +125,7 @@ let parseWrapper = (text, reviver, intensity, cb) => {
         at = index + 1;
       } else
         break;
-      index = inQuotes.indexOf('\\', at);
+      index = yield * indexOfGenerator(inQuotes, '\\', at);
     }
     at = 0;
     return inQuotes;
@@ -225,7 +226,7 @@ let parseWrapper = (text, reviver, intensity, cb) => {
             return inQuotes;
           } else {
             seek();
-            return normalizeUnicodedString();
+            return yield * normalizeUnicodedString();
           }
         case '0':
         case '1':
