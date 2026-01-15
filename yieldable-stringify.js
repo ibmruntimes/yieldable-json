@@ -171,7 +171,7 @@ function * stringifyYield(field, container, replacer, space, intensity) {
       result = [];
     // If toJSON is present, invoke it (SPEC)
       if (value && typeof value.toJSON === 'function') {
-        result.push('"' + value.toJSON(field) + '"');
+        result.push(JSON.stringify(value.toJSON(field)));
         if (result.length === 0)
           return '{}';
         else
