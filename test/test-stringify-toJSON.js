@@ -5,11 +5,21 @@ const tap = require('tap');
 
 class TestClass {
   constructor() {
-    this.value = 4;
+    this.bool = true;
+    this.number = 4;
+    this.string = 'string';
+    this.quoted = '"quoted"';
+    this.null = null;
   }
 
   toJSON() {
-    return {value: this.value};
+    return {
+      bool: this.bool,
+      number: this.number,
+      string: this.string,
+      quoted: this.quoted,
+      null: this.null,
+    };
   }
 }
 
