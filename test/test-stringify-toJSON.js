@@ -40,3 +40,31 @@ yj.stringifyAsync(test, (err, str) => {
     tap.fail(err);
   }
 });
+
+class TestNestedClass {
+  constructor() {
+    this.value = {data: true, string: 'test', number: 42, array: [1, 2, 3]};
+  }
+
+  toJSON() {
+    return {value: this.value};
+  }
+}
+
+// class with various nested values and custom toJSON method
+const testNested = new TestNestedClass();
+
+yj.stringifyAsync(testNested, (err, str) => {
+  if (!err){
+    tap.equal(JSON.stringify(testNested), str);
+    yj.parseAsync(str, (error, data) => {
+      if (!error){
+        tap.deepEquals(data, testNested);
+      } else {
+        tap.fail(error);
+      }
+    });
+  } else {
+    tap.fail(err);
+  }
+});
