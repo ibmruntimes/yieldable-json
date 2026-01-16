@@ -150,3 +150,6 @@ to search for existing bugs before you create another one. Contributions are alw
 **Sam Roberts** &lt;vieuxtech@gmail.com&gt; (he/him)
  * [sreepurnajasti](https://github.com/sreepurnajasti) -
 **Sreepurna Jasti** &lt;sreepurna.jasti@gmail.com&gt; (she/her)
+ * [honzamac](https://github.com/honzamac) -
+**Jan Machala** &lt;honza.machala@seznam.cz&gt; (he/him)
+
