@@ -1,6 +1,6 @@
 {
   "name": "yieldable-json",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "main": "index.js",
   "description": "An asynchronous yieldable version of JSON.stringify and JSON.parse",
   "author": "Gireesh Punathil <gpunathi@in.ibm.com>",
@@ -9,7 +9,8 @@
     "Lakshmi Swetha Gopireddy <lakshmiswethagopireddy@gmail.com>",
     "Michael Dawson <michael_dawson@ca.ibm.com>",
     "Sam Roberts <vieuxtech@gmail.com>",
-    "Sreepurna Jasti <sreepurna.jasti@gmail.com>"
+    "Sreepurna Jasti <sreepurna.jasti@gmail.com>",
+    "Jan Machala <honza.machala@seznam.cz>"
   ],
   "keywords": [
     "stringify",
