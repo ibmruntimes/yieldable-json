@@ -45,7 +45,7 @@
   ],
   "devDependencies": {
     "@faker-js/faker": "^10.2.0",
-    "eslint": "^6.6.0",
+    "eslint": "^9.39.2",
     "eslint-config-strongloop": "^2.1.0",
     "seedrandom": "^2.4.3",
     "tap": "^10.7.3"
