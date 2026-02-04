@@ -27,7 +27,8 @@
   "repository": "ibmruntimes/yieldable-json",
   "scripts": {
     "lint": "eslint .",
-    "test": "tap test/*.js"
+    "test": "tap test/*.js",
+    "benchmark": "node benchmark/benchmark-loop-starvation.js"
   },
   "engines": {
     "node": ">= 4.0.0"
@@ -43,9 +44,10 @@
     "utils/"
   ],
   "devDependencies": {
+    "@faker-js/faker": "^10.2.0",
     "eslint": "^6.6.0",
     "eslint-config-strongloop": "^2.1.0",
-    "tap": "^10.7.3",
-    "seedrandom": "^2.4.3"
+    "seedrandom": "^2.4.3",
+    "tap": "^10.7.3"
   }
 }
