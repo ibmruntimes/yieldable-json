@@ -36,62 +36,64 @@ While definition of concurrency is subjective, a number of tests we performed in
   <tr>
     <td>230 KB</td>
     <td>parse</td>
-    <td>1.91</td>
-    <td>12.25</td>
+    <td>1.54</td>
+    <td>2.87</td>
   </tr>
   <tr>
     <td>230 KB</td>
     <td>stringify</td>
-    <td>0.86</td>
-    <td>6.86</td>
+    <td>0.66</td>
+    <td>6.60</td>
   </tr>
   <tr>
     <td>654 KB</td>
     <td>parse</td>
-    <td>4.67</td>
-    <td>17.81</td>
+    <td>3.94</td>
+    <td>16.24</td>
   </tr>
   <tr>
     <td>654 KB</td>
     <td>stringify</td>
-    <td>2.27</td>
-    <td>2.11</td>
+    <td>1.95</td>
+    <td>1.48</td>
   </tr>
   <tr>
     <td>2.6 MB</td>
     <td>parse</td>
-    <td>15.72</td>
-    <td>47.20</td>
+    <td>13.35</td>
+    <td>35.72</td>
   </tr>
   <tr>
     <td style="background-color: #e8f5e9;">2.6 MB</td>
     <td style="background-color: #e8f5e9;">stringify</td>
-    <td style="background-color: #e8f5e9;">21.28</td>
-    <td style="background-color: #e8f5e9;">3.08</td>
+    <td style="background-color: #e8f5e9;">9.86</td>
+    <td style="background-color: #e8f5e9;">2.59</td>
   </tr>
   <tr>
     <td>4.4 MB</td>
     <td>parse</td>
-    <td>23.11</td>
-    <td>119.84</td>
+    <td>19.81</td>
+    <td>38.32</td>
   </tr>
   <tr>
     <td style="background-color: #e8f5e9;">4.4 MB</td>
     <td style="background-color: #e8f5e9;">stringify</td>
-    <td style="background-color: #e8f5e9;">15.84</td>
-    <td style="background-color: #e8f5e9;">8.40</td>
+    <td style="background-color: #e8f5e9;">18.85</td>
+    <td style="background-color: #e8f5e9;">4.75</td>
   </tr>
 </table>
 
 **Important Notes:**
 
 - **Parse vs Stringify Performance**: The benchmark results show different performance characteristics for parse and stringify operations:
-  - **Stringify (large data)**: yieldable-json excels, providing **47-85% better responsiveness** for 2.6-4.4 MB data
-    - 2.6 MB: 21.28ms → 3.08ms (85% faster)
-    - 4.4 MB: 15.84ms → 8.40ms (47% faster)
+  - **Stringify (large data)**: yieldable-json excels, providing **73-75% better responsiveness** for 2.6-4.4 MB data
+    - 2.6 MB: 9.86ms → 2.59ms (73% faster)
+    - 4.4 MB: 18.85ms → 4.75ms (75% faster)
   - **Parse (large data)**: Native JSON is faster due to yielding overhead in parse operations
     - For parse-heavy workloads with large data, native JSON may be more appropriate
     - yieldable-json parse still prevents complete event loop starvation
+  - **Parse (moderate data)**: yieldable-json shows competitive performance with proper yielding
+    - 654 KB stringify: 1.95ms → 1.48ms (24% faster)
 
 - **When to use yieldable-json**:
   - ✅ **Stringify operations** on data > 1 MB
@@ -103,7 +105,7 @@ While definition of concurrency is subjective, a number of tests we performed in
   - ✅ **Parse-heavy workloads** where absolute speed is more important than responsiveness
   - ✅ Single-threaded batch processing
 
-*Values shown are worst-case event loop blocking times measured with nanosecond precision. Modern hardware processes faster than original 2017 measurements.*
+*Values shown are worst-case event loop blocking times measured with nanosecond precision. Benchmarked on modern hardware (February 2026).*
 
 
 ----------

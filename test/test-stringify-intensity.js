@@ -20,13 +20,13 @@ yj.stringifyAsync(obj, 0, 2, (err, str) => {
 });
 
 function foo() {
-  setTimeout(() => {
+  setImmediate(() => {
     count++;
     flag++;
-    if (count === 100)
+    if (count === 1000)
       return;
     foo();
-  }, 0);
-};
+  });
+}
 
 foo();

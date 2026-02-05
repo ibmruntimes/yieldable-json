@@ -12,13 +12,15 @@ module.exports.indexOfGenerator = function* indexOfGenerator(stringInput, search
   let index = -1;
   while (true) {
     const at = Math.max(innerAt - 1, 0);
-    yield chunk = stringInput.slice(at, innerAt + MAX_STRING_SIZE);
+    const chunk = stringInput.slice(at, innerAt + MAX_STRING_SIZE);
+    yield chunk;
     if (!chunk.length) {
       return index;
     }
     const indexOf = chunk.indexOf(searchInput);
     if (indexOf !== -1) {
-      yield index = indexOf + at + initialIndex;
+      index = indexOf + at + initialIndex;
+      yield index;
       return index;
     }
     innerAt += chunk.length + 1;

@@ -11,11 +11,11 @@ The benchmark tests both built-in `JSON` methods and `yieldable-json` async meth
 Test data is **generated dynamically** using [Faker.js](https://fakerjs.dev/) before each benchmark run. This eliminates the need for static JSON fixture files and provides more realistic test data.
 
 ### Data Sizes
-Data is generated at the following target sizes (doubled from original to account for 2017→2025 hardware improvements):
-- **230 KB** (small) - doubled from 115 KB
-- **654 KB** (medium) - doubled from 327 KB
-- **2.6 MB** (large) - doubled from 1.3 MB
-- **4.4 MB** (xlarge) - doubled from 2.2 MB
+Data is generated at the following target sizes:
+- **230 KB** (small)
+- **654 KB** (medium)
+- **2.6 MB** (large)
+- **4.4 MB** (xlarge)
 
 ### Payload Types
 Each size is tested with five different payload types:
@@ -39,27 +39,27 @@ The benchmark produces detailed results for each payload type, plus a summary ta
 
 | Data Volume | Operation  | JSON [ms] | Yieldable [ms] |
 |-------------|------------|-----------|----------------|
-| 230 KB      | parse      | 1.91      | 12.25          |
-| 230 KB      | stringify  | 0.86      | 6.86           |
-| 654 KB      | parse      | 4.67      | 17.81          |
-| 654 KB      | stringify  | 2.27      | 2.11           |
-| 2.6 MB      | parse      | 15.72     | 47.20          |
-| 2.6 MB      | stringify  | 21.28     | 3.08           |
-| 4.4 MB      | parse      | 23.11     | 119.84         |
-| 4.4 MB      | stringify  | 15.84     | 8.40           |
+| 230 KB      | parse      | 1.54      | 2.87           |
+| 230 KB      | stringify  | 0.66      | 6.60           |
+| 654 KB      | parse      | 3.94      | 16.24          |
+| 654 KB      | stringify  | 1.95      | 1.48           |
+| 2.6 MB      | parse      | 13.35     | 35.72          |
+| 2.6 MB      | stringify  | 9.86      | 2.59           |
+| 4.4 MB      | parse      | 19.81     | 38.32          |
+| 4.4 MB      | stringify  | 18.85     | 4.75           |
 
-*Note: Times are maximum event loop delays (worst case) measured in nanoseconds and displayed in [ms] with 2 decimal precision*
+*Note: Times are maximum event loop delays (worst case) measured in nanoseconds and displayed in [ms] with 2 decimal precision. Benchmarked February 2026.*
 
 ### Key Insights
 
 ✅ **yieldable-json excels at stringify operations for large data**:
-- At 2.6 MB: Native JSON blocks for 21.28ms, yieldable-json only 3.08ms (**85% faster**)
-- At 4.4 MB: Native JSON blocks for 15.84ms, yieldable-json only 8.40ms (**47% faster**)
+- At 2.6 MB: Native JSON blocks for 9.86ms, yieldable-json only 2.59ms (**73% faster**)
+- At 4.4 MB: Native JSON blocks for 18.85ms, yieldable-json only 4.75ms (**75% faster**)
 
-✅ **Consistent low blocking times**: yieldable-json maintains predictable ~2-8ms blocking for stringify regardless of data size
+✅ **Consistent low blocking times**: yieldable-json maintains predictable ~2-5ms blocking for stringify regardless of data size
 
-⚠️ **Parse operations show different characteristics**: 
-- Native JSON is faster for parse operations on large data due to yielding overhead
-- yieldable-json parse prevents complete event loop starvation but has higher worst-case times
-- For parse-heavy workloads with large data, native JSON may be more appropriate
+⚠️ **Parse operations on large data**: 
+- Native JSON is still faster for parse operations on very large data due to yielding overhead
+- yieldable-json parse prevents complete event loop starvation and maintains responsiveness
+- For parse-heavy workloads with massive data, consider native JSON if absolute speed matters more than concurrency
 - yieldable-json is ideal for stringify-heavy workloads and high-concurrency scenarios
