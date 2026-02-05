@@ -48,6 +48,6 @@
     "eslint": "^9.39.2",
     "eslint-config-strongloop": "^2.1.0",
     "seedrandom": "^2.4.3",
-    "tap": "^10.7.3"
+    "tap": "^21.5.0"
   }
 }
