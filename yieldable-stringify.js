@@ -47,6 +47,7 @@ let normalize = (string, flagN) => {
     '\n': '\\n',
     '\f': '\\f',
     '\r': '\\r',
+    '\v': '\\u000b',
     '"': '\\"',
   };
   // Escape is implemented globally
