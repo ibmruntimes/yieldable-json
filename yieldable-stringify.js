@@ -33,10 +33,10 @@ function StringifyError(m) {
 let normalize = (string, flagN) => {
   let retStr = '';
   let transform = '';
-  let uc =
-  '/[\\\'\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4' +
-  '\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g';
-  let unicode = new RegExp(uc);
+  // Escape remaining ASCII control characters U+0000..U+001F as \u00XX.
+  // The five short-form escapes (\b \t \n \f \r) and the quote are
+  // already handled by the escape table below.
+  let unicode = /[\u0000-\u001f]/g;
   // Taking '\\' out of the loop to avoid change in
   // order of execution of object entries resulting
   // in unwanted side effect
